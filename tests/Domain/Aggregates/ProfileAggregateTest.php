@@ -6,6 +6,7 @@ use App\AggregateEvents\ProfileAggregate\ProfileCreated;
 use App\AggregateEvents\ProfileAggregate\UsernameChanged;
 use App\Aggregates\ProfileAggregate;
 use Tests\TestCase;
+use \Spatie\EventSourcing\Facades\Projectionist;
 
 class ProfileAggregateTest extends TestCase 
 {
@@ -24,12 +25,12 @@ class ProfileAggregateTest extends TestCase
      */
     public function testChangingUsername(string $uuid, array $startUser, string $expectedUsername)
     {
-        \Spatie\EventSourcing\Facades\Projectionist::withoutEventHandlers();
+        Projectionist::withoutEventHandlers();
         $tmpEvent = new UsernameChanged($expectedUsername);
         ProfileAggregate::fake($uuid)
             ->given($this->createProfileStreamOf($startUser))
             ->when(fn (ProfileAggregate $a) => $a->updateUsername($expectedUsername))
-            ->assertRecorded(new UsernameChanged($expectedUsername))
+            ->assertRecorded($tmpEvent)
             ->assertApplied($this->createProfileStreamOf($startUser, $tmpEvent));
     }
 

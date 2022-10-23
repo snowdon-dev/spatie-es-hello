@@ -15,6 +15,12 @@ class Profile extends Model
         'userId',
     ];
 
+    public function updateUsername(string $username)
+    {
+        $this->username = $username;
+        $this->save();
+    }
+
     /*
      * A helper method to quickly retrieve an account by uuid.
      */
