@@ -1,0 +1,31 @@
+version: "3.7"
+networks:
+  test-network:
+    driver: bridge 
+  
+services:
+  app:
+    build:
+      args:
+        user: dale 
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    container_name: spatie-es-hello-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - test-network
+  nginx:
+    image: nginx:1.17-alpine
+    container_name: spatie-es-hello-nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+    networks:
+      - test-network
