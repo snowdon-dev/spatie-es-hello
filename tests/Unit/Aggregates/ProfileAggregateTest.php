@@ -24,6 +24,7 @@ class ProfileAggregateTest extends TestCase
      */
     public function testChangingUsername(string $uuid, array $startUser, string $expectedUsername)
     {
+        \Spatie\EventSourcing\Facades\Projectionist::withoutEventHandlers();
         $tmpEvent = new UsernameChanged($expectedUsername);
         ProfileAggregate::fake($uuid)
             ->given($this->createProfileStreamOf($startUser))
