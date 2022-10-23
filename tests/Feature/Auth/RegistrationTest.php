@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Auth;
 
+use App\AggregateEvents\ProfileAggregate\ProfileCreated;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -28,5 +29,19 @@ class RegistrationTest extends TestCase
 
         $this->assertAuthenticated();
         $response->assertRedirect(RouteServiceProvider::HOME);
+
+        $this->hasInEventStream([
+            'event_class' => ProfileCreated::class,
+            'event_properties' => json_encode([
+                'username' => 'Test User',
+                'userId' => 1
+            ])
+        ]);
+    }
+
+    // @todo extract to base test
+    protected function hasInEventStream(array $data)
+    {
+        $this->assertDatabaseHas('stored_events', $data);
     }
 }
