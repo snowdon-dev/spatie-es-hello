@@ -38,10 +38,4 @@ class RegistrationTest extends TestCase
             ])
         ]);
     }
-
-    // @todo extract to base test
-    protected function hasInEventStream(array $data)
-    {
-        $this->assertDatabaseHas('stored_events', $data);
-    }
 }
