@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Aggregates;
+namespace Tests\Domain\Aggregates;
 
 use App\AggregateEvents\ProfileAggregate\ProfileCreated;
 use App\AggregateEvents\ProfileAggregate\UsernameChanged;

@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\Domain\Projectors;
+
 use App\Aggregates\ProfileAggregate;
 use App\Models\Profile;
 use Tests\TestCase;
